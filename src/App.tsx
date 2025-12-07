@@ -1,12 +1,19 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Home, Leaf, Zap, ChefHat, Paintbrush, Grid3x3, Hammer, Trees, Box, Fence, Award, Trophy, Clock, CheckCircle, Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight, Star, Sparkles } from 'lucide-react';
+import { Home, Leaf, Zap, ChefHat, Paintbrush, Grid3x3, Hammer, Trees, Box, Fence, Award, Trophy, Clock, CheckCircle, Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight, Star, Sparkles, Sun, Moon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import heroImage from 'figma:asset/9ce3f11a2825db662e1ee7c9ee40ee9590666b17.png';
+import logoImage from 'figma:asset/2efec2bbd367343602568c94572f81890c7ead9a.png';
+import { LoadingAnimation } from './components/LoadingAnimation';
+import { WhatsAppButton } from './components/WhatsAppButton';
+import { TrustSignals } from './components/TrustSignals';
+import { FloatingParticles, RippleEffect, ScrollProgress, CursorFollower } from './components/MicroInteractions';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const { scrollY } = useScroll();
   
   // Advanced Parallax
@@ -33,14 +40,54 @@ export default function App() {
   }, []);
 
   const mainServices = [
-    { icon: ChefHat, title: 'Kitchens & Bathrooms', color: 'from-amber-500 to-orange-600' },
-    { icon: Paintbrush, title: 'Painting & Decorating', color: 'from-purple-500 to-pink-600' },
-    { icon: Grid3x3, title: 'Flooring & Tiling', color: 'from-blue-500 to-cyan-600' },
-    { icon: Hammer, title: 'Carpentry & Built-ins', color: 'from-emerald-500 to-teal-600' },
-    { icon: Trees, title: 'Garden Design', color: 'from-green-500 to-lime-600' },
-    { icon: Box, title: 'Decking & Terraces', color: 'from-rose-500 to-red-600' },
-    { icon: Fence, title: 'Outdoor Structures', color: 'from-indigo-500 to-blue-600' },
-    { icon: Home, title: 'Full Home Renovation', color: 'from-yellow-500 to-amber-600' },
+    { 
+      icon: ChefHat, 
+      title: 'Kitchens & Bathrooms', 
+      color: 'from-amber-500 to-orange-600',
+      features: ['Custom cabinetry', 'Modern fixtures', 'Space optimization', 'Premium finishes']
+    },
+    { 
+      icon: Paintbrush, 
+      title: 'Painting & Decorating', 
+      color: 'from-purple-500 to-pink-600',
+      features: ['Interior painting', 'Exterior coating', 'Wallpaper installation', 'Color consultation']
+    },
+    { 
+      icon: Grid3x3, 
+      title: 'Flooring & Tiling', 
+      color: 'from-blue-500 to-cyan-600',
+      features: ['Hardwood flooring', 'Ceramic tiles', 'Vinyl installation', 'Floor restoration']
+    },
+    { 
+      icon: Hammer, 
+      title: 'Carpentry & Built-ins', 
+      color: 'from-emerald-500 to-teal-600',
+      features: ['Custom furniture', 'Built-in storage', 'Shelving systems', 'Wood restoration']
+    },
+    { 
+      icon: Trees, 
+      title: 'Garden Design', 
+      color: 'from-green-500 to-lime-600',
+      features: ['Landscape planning', 'Plant selection', 'Garden layouts', 'Water features']
+    },
+    { 
+      icon: Box, 
+      title: 'Decking & Terraces', 
+      color: 'from-rose-500 to-red-600',
+      features: ['Composite decking', 'Patio construction', 'Terrace design', 'Outdoor flooring']
+    },
+    { 
+      icon: Fence, 
+      title: 'Outdoor Structures', 
+      color: 'from-indigo-500 to-blue-600',
+      features: ['Pergolas', 'Gazebos', 'Fencing', 'Garden rooms']
+    },
+    { 
+      icon: Home, 
+      title: 'Full Home Renovation', 
+      color: 'from-yellow-500 to-amber-600',
+      features: ['Complete makeover', 'Structural changes', 'Extension work', 'Project management']
+    },
   ];
 
   const whyChooseUs = [
@@ -50,8 +97,19 @@ export default function App() {
     { icon: Clock, title: 'Clean & On-Time Work', description: 'Delivered as promised', gradient: 'from-emerald-400 via-green-500 to-teal-600' },
   ];
 
+  // Show loading animation
+  if (isLoading) {
+    return <LoadingAnimation onComplete={() => setIsLoading(false)} />;
+  }
+
   return (
-    <div className="bg-[#0A0F14] min-h-screen text-white font-sans antialiased overflow-x-hidden relative">
+    <div className={`${isDarkMode ? 'bg-[#0A0F14]' : 'bg-[#F5F2EB]'} min-h-screen ${isDarkMode ? 'text-white' : 'text-[#0A0F14]'} font-sans antialiased overflow-x-hidden relative transition-colors duration-500`}>
+      {/* Micro Interactions */}
+      <FloatingParticles />
+      <RippleEffect />
+      <ScrollProgress />
+      <CursorFollower />
+
       {/* Animated Background Gradient Mesh */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <motion.div 
@@ -118,7 +176,7 @@ export default function App() {
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled 
-            ? 'bg-[#0A0F14]/80 backdrop-blur-2xl shadow-2xl border-b border-white/5' 
+            ? `${isDarkMode ? 'bg-[#0A0F14]/80' : 'bg-[#F5F2EB]/80'} backdrop-blur-2xl shadow-2xl ${isDarkMode ? 'border-b border-white/5' : 'border-b border-[#0A0F14]/10'}` 
             : 'bg-transparent'
         }`}
         style={{ height: '90px' }}
@@ -199,29 +257,33 @@ export default function App() {
 
         <div className="max-w-[1600px] mx-auto px-8 lg:px-16 h-full relative z-10">
           <div className="flex items-center justify-between h-full">
-            {/* Logo with Glow */}
+            {/* Logo with Text */}
             <motion.a 
               href="#home" 
-              className="block relative group"
+              className="flex items-center gap-3 relative group"
               whileHover={{ scale: 1.05 }}
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#D6B46C] to-[#C9A961] opacity-0 group-hover:opacity-20 blur-2xl transition-opacity rounded-lg"></div>
-              <div className="text-4xl relative" style={{
+              <div className="absolute inset-0 bg-gradient-to-r from-[#D6B46C] to-[#C9A961] opacity-0 group-hover:opacity-30 blur-3xl transition-opacity rounded-lg"></div>
+              <img 
+                src={logoImage} 
+                alt="Slymax Builders Logo" 
+                className="h-16 w-auto relative z-10 drop-shadow-2xl"
+                style={{
+                  filter: 'drop-shadow(0 0 20px rgba(214, 180, 108, 0.4))',
+                }}
+              />
+              <div className="relative z-10 text-xl hidden sm:block" style={{
                 background: 'linear-gradient(135deg, #FFD700 0%, #D6B46C 50%, #FFA500 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: '900',
                 letterSpacing: '-0.03em',
-                filter: 'drop-shadow(0 0 20px rgba(214, 180, 108, 0.5))',
               }}>
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-8 h-8 text-[#D6B46C]" />
-                  SLYMAX
-                </div>
-                <div className="text-2xl tracking-wide ml-10">BUILDERS</div>
+                <div>SLYMAX</div>
+                <div className="text-sm tracking-wider">BUILDERS</div>
               </div>
             </motion.a>
 
@@ -231,7 +293,7 @@ export default function App() {
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="relative px-6 py-3 text-white/80 hover:text-white transition-all rounded-full overflow-hidden group"
+                  className={`relative px-6 py-3 ${isDarkMode ? 'text-white/80 hover:text-white' : 'text-[#0A0F14]/80 hover:text-[#0A0F14]'} transition-all rounded-full overflow-hidden group`}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -246,13 +308,32 @@ export default function App() {
 
             {/* Right CTAs - 3D Glass Effect */}
             <div className="hidden lg:flex items-center gap-4">
+              {/* Theme Toggle */}
+              <motion.button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className="relative p-3 rounded-full overflow-hidden group"
+                whileHover={{ scale: 1.1, rotate: 180 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="absolute inset-0 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#D6B46C]/20 to-[#C9A961]/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity"></div>
+                {isDarkMode ? (
+                  <Sun className="relative z-10 w-5 h-5 text-[#D6B46C]" strokeWidth={2.5} />
+                ) : (
+                  <Moon className="relative z-10 w-5 h-5 text-[#D6B46C]" strokeWidth={2.5} />
+                )}
+              </motion.button>
+
               <motion.button
                 className="relative px-7 py-3.5 rounded-2xl overflow-hidden group"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
               >
                 <div className="absolute inset-0 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl"></div>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#D6B46C]/0 via-[#D6B46C]/20 to-[#D6B46C]/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -279,10 +360,10 @@ export default function App() {
 
             {/* Mobile Menu */}
             <button 
-              className="lg:hidden text-white p-2 relative group"
+              className={`lg:hidden ${isDarkMode ? 'text-white' : 'text-[#0A0F14]'} p-2 relative group`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              <div className="absolute inset-0 bg-white/5 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className={`absolute inset-0 ${isDarkMode ? 'bg-white/5' : 'bg-[#0A0F14]/5'} rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity`}></div>
               {isMobileMenuOpen ? <X className="w-7 h-7 relative z-10" /> : <Menu className="w-7 h-7 relative z-10" />}
             </button>
           </div>
@@ -293,20 +374,20 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="lg:hidden bg-[#0A0F14]/95 backdrop-blur-2xl border-t border-white/5"
+            className={`lg:hidden ${isDarkMode ? 'bg-[#0A0F14]/95' : 'bg-[#F5F2EB]/95'} backdrop-blur-2xl ${isDarkMode ? 'border-t border-white/5' : 'border-t border-[#0A0F14]/10'}`}
           >
             <div className="px-6 py-8 space-y-4">
               {['Home', 'Services', 'Projects', 'Reviews', 'Contact'].map((item) => (
                 <a 
                   key={item}
                   href={`#${item.toLowerCase()}`} 
-                  className="block text-white text-xl px-4 py-3 rounded-xl hover:bg-white/5 transition-all"
+                  className={`block ${isDarkMode ? 'text-white' : 'text-[#0A0F14]'} text-xl px-4 py-3 rounded-xl ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-[#0A0F14]/5'} transition-all`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item}
                 </a>
               ))}
-              <button className="w-full px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-white">
+              <button className={`w-full px-6 py-3 ${isDarkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-[#0A0F14]/5 border-[#0A0F14]/10 text-[#0A0F14]'} border rounded-xl`}>
                 Estimate Cost
               </button>
               <button className="w-full px-6 py-3 rounded-xl text-black bg-gradient-to-r from-[#FFD700] to-[#FFA500]">
@@ -544,13 +625,33 @@ export default function App() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.3 }}
+                className="flex flex-col items-center text-center mb-12"
               >
+                {/* Logo - Centered Above Premium Tag */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5, y: -20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="mb-8 relative group"
+                  whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] via-[#D6B46C] to-[#FFA500] opacity-40 group-hover:opacity-60 blur-3xl transition-opacity rounded-full"></div>
+                  <img 
+                    src={logoImage} 
+                    alt="Slymax Builders" 
+                    className="h-32 w-auto relative z-10"
+                    style={{
+                      filter: 'drop-shadow(0 10px 30px rgba(214, 180, 108, 0.5))',
+                    }}
+                  />
+                </motion.div>
+
                 {/* Premium Tag - Animated */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="inline-block mb-8 relative group"
+                  className="inline-block relative group"
                   whileHover={{ scale: 1.05 }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] to-[#FFA500] blur-xl opacity-50 group-hover:opacity-80 transition-opacity rounded-full"></div>
@@ -572,7 +673,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.7 }}
-                  className="mb-6"
+                  className="mb-6 text-center"
                   style={{
                     fontSize: 'clamp(48px, 8vw, 96px)',
                     lineHeight: '1.1',
@@ -623,7 +724,7 @@ export default function App() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 1 }}
-                  className="text-xl text-white/70 mb-12 max-w-2xl leading-relaxed"
+                  className="text-xl text-white/70 mb-12 max-w-2xl leading-relaxed text-center mx-auto"
                 >
                   Experience the future of construction with cutting-edge design and unmatched craftsmanship.
                 </motion.p>
@@ -633,7 +734,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 1.2 }}
-                  className="flex flex-col sm:flex-row gap-5"
+                  className="flex flex-col sm:flex-row gap-5 justify-center"
                 >
                   <motion.button
                     whileHover={{ scale: 1.05, y: -3 }}
@@ -739,7 +840,7 @@ export default function App() {
                     >
                       <div className={`absolute inset-0 bg-gradient-to-r ${service.gradient} opacity-50 blur-2xl rounded-full`}></div>
                       <div className={`relative p-6 rounded-2xl bg-gradient-to-r ${service.gradient}`}>
-                        <service.icon className="w-12 h-12 text-white" />
+                        <service.icon className="w-14 h-14 text-white" strokeWidth={2} />
                       </div>
                     </motion.div>
                     
@@ -822,7 +923,7 @@ export default function App() {
                 
                 {/* Card */}
                 <div 
-                  className="relative h-[280px] rounded-3xl overflow-hidden backdrop-blur-xl border border-white/10 transition-all duration-500 group-hover:border-white/20"
+                  className="relative h-[380px] rounded-3xl overflow-hidden backdrop-blur-xl border border-white/10 transition-all duration-500 group-hover:border-white/20"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
                   }}
@@ -831,28 +932,32 @@ export default function App() {
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
                   
                   {/* Content */}
-                  <div className="relative z-10 h-full flex flex-col items-center justify-center text-center p-8">
+                  <div className="relative z-10 h-full flex flex-col items-center justify-between text-center p-8">
                     {/* Icon */}
                     <motion.div
-                      className="mb-6 relative"
+                      className="mb-3 relative"
                       whileHover={{ rotate: 360 }}
                       transition={{ duration: 0.6 }}
                     >
                       <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-20 blur-xl rounded-full`}></div>
-                      <div className="relative p-5 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-white/10 transition-all">
-                        <service.icon className={`w-10 h-10 bg-gradient-to-r ${service.color} bg-clip-text text-transparent`} 
-                          style={{ 
-                            filter: 'drop-shadow(0 0 10px currentColor)',
-                            stroke: 'currentColor',
-                            strokeWidth: 0.5
-                          }} 
-                        />
+                      <div className="relative p-6 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-white/10 transition-all">
+                        <service.icon className="w-16 h-16 text-white" strokeWidth={2.5} />
                       </div>
                     </motion.div>
                     
-                    <h3 className={`text-xl font-bold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:${service.color} group-hover:bg-clip-text transition-all`}>
+                    <h3 className="text-2xl font-bold text-white mb-auto mt-3">
                       {service.title}
                     </h3>
+
+                    {/* Features List - Always Visible */}
+                    <div className="space-y-2.5 text-left w-full mt-4">
+                      {service.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-2 text-white/80 text-sm">
+                          <CheckCircle className="w-4 h-4 text-[#D6B46C] flex-shrink-0" strokeWidth={2.5} />
+                          <span>{feature}</span>
+                        </div>
+                      ))}
+                    </div>
 
                     {/* Hover Arrow */}
                     <motion.div
@@ -860,7 +965,7 @@ export default function App() {
                       whileHover={{ opacity: 1, y: 0 }}
                       className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <ArrowRight className="w-5 h-5 text-white" />
+                      <ArrowRight className="w-6 h-6 text-[#D6B46C]" strokeWidth={2.5} />
                     </motion.div>
                   </div>
 
@@ -884,49 +989,61 @@ export default function App() {
         </div>
       </section>
 
-      {/* BEFORE & AFTER - Enhanced */}
-      <section id="projects" className="relative px-8 lg:px-16 py-32">
-        <div className="max-w-[1600px] mx-auto">
+      {/* BEFORE & AFTER - Compact with Categories */}
+      <section id="projects" className="relative px-8 lg:px-16 py-24">
+        <div className="max-w-[1400px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-16"
           >
-            <h2 className="text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+            <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
               Amazing Transformations
             </h2>
-            <p className="text-xl text-white/60 max-w-3xl mx-auto">
-              Witness the power of expert craftsmanship and innovative design
+            <p className="text-lg text-white/60">
+              Witness the power of expert craftsmanship
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Before */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              whileHover={{ scale: 1.02, y: -5 }}
+              whileHover={{ scale: 1.02, y: -10, rotateY: 5, rotateX: 2 }}
+              style={{ 
+                transformStyle: 'preserve-3d',
+                perspective: '1000px'
+              }}
               className="group relative"
             >
-              <div className="absolute -inset-4 bg-gradient-to-r from-gray-500 to-gray-700 opacity-20 group-hover:opacity-40 blur-3xl transition-opacity rounded-3xl"></div>
-              <div className="relative rounded-3xl overflow-hidden border-4 border-white/10 group-hover:border-white/20 transition-all">
-                <img 
+              <div className="absolute -inset-3 bg-gradient-to-r from-gray-500 to-gray-700 opacity-20 group-hover:opacity-40 blur-3xl transition-opacity rounded-2xl"></div>
+              <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 group-hover:border-white/20 transition-all">
+                <motion.img 
                   src="https://images.unsplash.com/photo-1625766924037-97152552d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjBiZWZvcmUlMjByZW5vdmF0aW9ufGVufDF8fHx8MTc2NDgwNzY4M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="Before"
-                  className="w-full h-[600px] object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-[400px] object-cover"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <div className="absolute top-8 left-8">
-                  <div className="px-6 py-3 bg-gray-900/90 backdrop-blur-xl rounded-full border border-white/20">
-                    <span className="text-white font-bold uppercase tracking-widest text-sm">Before</span>
+                <div className="absolute top-6 left-6">
+                  <div className="px-5 py-2 bg-gray-900/90 backdrop-blur-xl rounded-full border border-white/20">
+                    <span className="text-white font-bold uppercase tracking-widest text-xs">Before</span>
                   </div>
                 </div>
-                <div className="absolute bottom-8 left-8 right-8">
-                  <h3 className="text-3xl font-bold text-white mb-2">Garden Space</h3>
-                  <p className="text-white/70">Ready for transformation</p>
+                <div className="absolute top-6 right-6">
+                  <div className="px-4 py-2 bg-green-500/90 backdrop-blur-xl rounded-full border border-green-400/30 flex items-center gap-2">
+                    <Leaf className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+                    <span className="text-white font-semibold text-xs">Garden</span>
+                  </div>
+                </div>
+                <div className="absolute bottom-6 left-6 right-6">
+                  <h3 className="text-2xl font-bold text-white mb-1">Garden Space</h3>
+                  <p className="text-white/70 text-sm">Ready for transformation</p>
                 </div>
               </div>
             </motion.div>
@@ -937,29 +1054,41 @@ export default function App() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              whileHover={{ scale: 1.02, y: -5 }}
+              whileHover={{ scale: 1.02, y: -10, rotateY: -5, rotateX: -2 }}
+              style={{ 
+                transformStyle: 'preserve-3d',
+                perspective: '1000px'
+              }}
               className="group relative"
             >
-              <div className="absolute -inset-4 bg-gradient-to-r from-[#FFD700] via-[#D6B46C] to-[#FFA500] opacity-40 group-hover:opacity-60 blur-3xl transition-opacity rounded-3xl"></div>
-              <div className="relative rounded-3xl overflow-hidden border-4 border-[#D6B46C]/30 group-hover:border-[#D6B46C]/60 transition-all">
-                <img 
+              <div className="absolute -inset-3 bg-gradient-to-r from-[#FFD700] via-[#D6B46C] to-[#FFA500] opacity-40 group-hover:opacity-60 blur-3xl transition-opacity rounded-2xl"></div>
+              <div className="relative rounded-2xl overflow-hidden border-2 border-[#D6B46C]/30 group-hover:border-[#D6B46C]/60 transition-all">
+                <motion.img 
                   src="https://images.unsplash.com/photo-1588075147961-e0e9670e98aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBnYXJkZW4lMjBhZnRlciUyMHRyYW5zZm9ybWF0aW9ufGVufDF8fHx8MTc2NDgwOTU4MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                   alt="After"
-                  className="w-full h-[600px] object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-[400px] object-cover"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <div className="absolute top-8 right-8">
-                  <div className="px-6 py-3 bg-gradient-to-r from-[#FFD700] to-[#FFA500] rounded-full shadow-2xl">
-                    <span className="text-black font-bold uppercase tracking-widest text-sm flex items-center gap-2">
-                      <Sparkles className="w-4 h-4" fill="currentColor" />
+                <div className="absolute top-6 left-6">
+                  <div className="px-5 py-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] rounded-full shadow-2xl">
+                    <span className="text-black font-bold uppercase tracking-widest text-xs flex items-center gap-2">
+                      <Sparkles className="w-3.5 h-3.5" fill="currentColor" strokeWidth={2.5} />
                       After
                     </span>
+                  </div>
+                </div>
+                <div className="absolute top-6 right-6">
+                  <div className="px-4 py-2 bg-green-500/90 backdrop-blur-xl rounded-full border border-green-400/30 flex items-center gap-2">
+                    <Leaf className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+                    <span className="text-white font-semibold text-xs">Garden</span>
                   </div>
                 </div>
                 
                 {/* Animated Slider Handle */}
                 <motion.div 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full flex items-center justify-center"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full flex items-center justify-center"
                   style={{
                     background: 'linear-gradient(135deg, #FFD700 0%, #D6B46C 50%, #FFA500 100%)',
                     boxShadow: '0 10px 40px rgba(214, 180, 108, 0.6)',
@@ -974,15 +1103,15 @@ export default function App() {
                     ease: "easeInOut"
                   }}
                 >
-                  <div className="flex gap-1.5">
-                    <div className="w-1.5 h-8 bg-black rounded-full"></div>
-                    <div className="w-1.5 h-8 bg-black rounded-full"></div>
+                  <div className="flex gap-1">
+                    <div className="w-1 h-6 bg-black rounded-full"></div>
+                    <div className="w-1 h-6 bg-black rounded-full"></div>
                   </div>
                 </motion.div>
 
-                <div className="absolute bottom-8 left-8 right-8">
-                  <h3 className="text-3xl font-bold text-white mb-2">Luxury Garden</h3>
-                  <p className="text-white/70">Complete transformation</p>
+                <div className="absolute bottom-6 left-6 right-6">
+                  <h3 className="text-2xl font-bold text-white mb-1">Luxury Garden</h3>
+                  <p className="text-white/70 text-sm">Complete transformation</p>
                 </div>
               </div>
             </motion.div>
@@ -1035,12 +1164,12 @@ export default function App() {
                 Garden & Outdoor Living
               </h2>
               <div className="space-y-6">
-                {[
-                  'Premium decking installation with sustainable materials',
-                  'Custom pergolas and outdoor structures',
-                  'Professional landscape lighting design',
-                  'Beautiful pathways and hardscaping',
-                  'Expert plant selection and garden planning'
+{[
+                  { text: 'Premium decking installation with sustainable materials', icon: Box },
+                  { text: 'Custom pergolas and outdoor structures', icon: Home },
+                  { text: 'Professional landscape lighting design', icon: Zap },
+                  { text: 'Beautiful pathways and hardscaping', icon: Grid3x3 },
+                  { text: 'Expert plant selection and garden planning', icon: Trees }
                 ].map((item, index) => (
                   <motion.div
                     key={index}
@@ -1051,8 +1180,10 @@ export default function App() {
                     whileHover={{ x: 10 }}
                     className="flex items-center gap-4 group cursor-pointer"
                   >
-                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 group-hover:scale-125 transition-transform"></div>
-                    <p className="text-lg text-white/80 group-hover:text-white transition-colors">{item}</p>
+                    <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-400 to-teal-400 group-hover:scale-110 transition-transform">
+                      <item.icon className="w-4 h-4 text-white" strokeWidth={2.5} />
+                    </div>
+                    <p className="text-lg text-white/80 group-hover:text-white transition-colors">{item.text}</p>
                   </motion.div>
                 ))}
               </div>
@@ -1112,7 +1243,7 @@ export default function App() {
                   >
                     <div className={`relative w-28 h-28 rounded-full bg-gradient-to-r ${item.gradient} p-[3px] group-hover:p-[4px] transition-all`}>
                       <div className="w-full h-full bg-[#0A0F14] rounded-full flex items-center justify-center">
-                        <item.icon className="w-12 h-12 text-white" />
+                        <item.icon className="w-14 h-14 text-white" strokeWidth={2} />
                       </div>
                     </div>
                   </motion.div>
@@ -1200,9 +1331,9 @@ export default function App() {
                 {/* Right Contact Cards */}
                 <div className="space-y-5">
                   {[
-                    { icon: Phone, label: 'Phone', value: '+1 (555) 123-4567', gradient: 'from-blue-500 to-cyan-500' },
-                    { icon: Mail, label: 'Email', value: 'info@slymaxbuilders.com', gradient: 'from-purple-500 to-pink-500' },
-                    { icon: MapPin, label: 'Location', value: 'New York, NY', gradient: 'from-emerald-500 to-teal-500' }
+                    { icon: Phone, label: 'Phone', value: '+44 7731 426615', gradient: 'from-blue-500 to-cyan-500' },
+                    { icon: Mail, label: 'Email', value: 'g.janecki@wp.pl', gradient: 'from-purple-500 to-pink-500' },
+                    { icon: MapPin, label: 'Location', value: 'Aberdeen, Scotland', gradient: 'from-emerald-500 to-teal-500' }
                   ].map((contact, index) => (
                     <motion.div
                       key={index}
@@ -1222,7 +1353,7 @@ export default function App() {
                       >
                         <div className="flex items-center gap-5">
                           <div className={`p-4 rounded-xl bg-gradient-to-r ${contact.gradient}`}>
-                            <contact.icon className="w-6 h-6 text-white" />
+                            <contact.icon className="w-6 h-6 text-white" strokeWidth={2} />
                           </div>
                           <div>
                             <h4 className="text-white/50 mb-1 text-xs uppercase tracking-widest">{contact.label}</h4>
@@ -1239,40 +1370,75 @@ export default function App() {
         </div>
       </section>
 
+      {/* TRUST SIGNALS */}
+      <TrustSignals />
+
+      {/* WhatsApp Button */}
+      <WhatsAppButton />
+
       {/* FOOTER - Modern */}
-      <footer className="relative px-8 lg:px-16 py-20 border-t border-white/5">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0A0F14]/50"></div>
+      <motion.footer 
+        className={`relative px-8 lg:px-16 py-20 ${isDarkMode ? 'border-t border-white/5' : 'border-t border-[#0A0F14]/10'}`}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-b from-transparent to-[#0A0F14]/50' : 'bg-gradient-to-b from-transparent to-[#F5F2EB]/50'}`}></div>
         
         <div className="max-w-[1600px] mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             {/* Logo & Description */}
-            <div>
-              <div className="text-4xl mb-6" style={{
-                background: 'linear-gradient(135deg, #FFD700 0%, #D6B46C 50%, #FFA500 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: '900',
-                letterSpacing: '-0.03em',
-              }}>
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-7 h-7 text-[#D6B46C]" />
-                  SLYMAX
+            <div className="lg:col-span-2">
+              <div className="flex items-center gap-4 mb-6">
+                <img 
+                  src={logoImage} 
+                  alt="Slymax Builders" 
+                  className="h-20 w-auto"
+                  style={{
+                    filter: 'drop-shadow(0 4px 20px rgba(214, 180, 108, 0.3))',
+                  }}
+                />
+                <div className="text-3xl" style={{
+                  background: 'linear-gradient(135deg, #FFD700 0%, #D6B46C 50%, #FFA500 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: '900',
+                  letterSpacing: '-0.03em',
+                }}>
+                  <div>SLYMAX</div>
+                  <div className="text-xl tracking-wide">BUILDERS</div>
                 </div>
-                <div className="text-2xl tracking-wide ml-9">BUILDERS</div>
               </div>
-              <p className="text-white/50 leading-relaxed">
+              <p className={`${isDarkMode ? 'text-white/50' : 'text-[#0A0F14]/50'} leading-relaxed mb-6`}>
                 Premium construction and renovation services. Transforming spaces with exceptional craftsmanship and innovative design since 2010.
               </p>
+              
+              {/* Contact Info */}
+              <div className="space-y-3">
+                <a href="tel:+447731426615" className="flex items-center gap-3 text-white/60 hover:text-[#D6B46C] transition-colors group">
+                  <Phone className="w-5 h-5 text-[#D6B46C]" strokeWidth={2.5} />
+                  <span>+44 7731 426615</span>
+                </a>
+                <a href="mailto:g.janecki@wp.pl" className="flex items-center gap-3 text-white/60 hover:text-[#D6B46C] transition-colors group">
+                  <Mail className="w-5 h-5 text-[#D6B46C]" strokeWidth={2.5} />
+                  <span>g.janecki@wp.pl</span>
+                </a>
+                <div className="flex items-center gap-3 text-white/60">
+                  <MapPin className="w-5 h-5 text-[#D6B46C]" strokeWidth={2.5} />
+                  <span>Aberdeen, Scotland</span>
+                </div>
+              </div>
             </div>
 
             {/* Quick Links */}
             <div>
               <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Quick Links</h4>
-              <ul className="space-y-4">
+              <ul className="space-y-3">
                 {['Home', 'Services', 'Projects', 'Reviews', 'Contact'].map((item) => (
                   <li key={item}>
                     <a href={`#${item.toLowerCase()}`} className="text-white/50 hover:text-[#D6B46C] transition-colors flex items-center gap-2 group">
-                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" strokeWidth={2.5} />
                       {item}
                     </a>
                   </li>
@@ -1283,11 +1449,11 @@ export default function App() {
             {/* Services */}
             <div>
               <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Services</h4>
-              <ul className="space-y-4">
+              <ul className="space-y-3">
                 {['Kitchens & Bathrooms', 'Garden Design', 'Home Renovation', 'Interior Design'].map((item) => (
                   <li key={item}>
                     <a href="#services" className="text-white/50 hover:text-[#D6B46C] transition-colors flex items-center gap-2 group">
-                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" strokeWidth={2.5} />
                       {item}
                     </a>
                   </li>
@@ -1303,7 +1469,7 @@ export default function App() {
             </p>
           </div>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }
