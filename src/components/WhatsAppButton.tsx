@@ -15,7 +15,7 @@ export function WhatsAppButton() {
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.5, delay: 1 }}
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
       {/* Glow Effect */}
@@ -35,13 +35,14 @@ export function WhatsAppButton() {
         }}
       />
 
-      {/* Button */}
-      <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-2xl cursor-pointer">
-        <MessageCircle className="w-8 h-8 text-white" strokeWidth={2} />
+      {/* Button with Text */}
+      <div className="relative flex items-center gap-3 px-5 py-4 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 shadow-2xl cursor-pointer">
+        <MessageCircle className="w-6 h-6 text-white" strokeWidth={2.5} />
+        <span className="text-white font-semibold text-sm whitespace-nowrap">Chat with us</span>
         
         {/* Notification Badge */}
         <motion.div
-          className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-white text-xs font-bold"
+          className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 flex items-center justify-center text-white text-xs font-bold border-2 border-white"
           animate={{
             scale: [1, 1.2, 1],
           }}
@@ -55,12 +56,13 @@ export function WhatsAppButton() {
         </motion.div>
       </div>
 
-      {/* Tooltip */}
+      {/* Enhanced Tooltip on Hover */}
       <motion.div
-        className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-[#0A0F14]/95 backdrop-blur-xl px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+        className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-[#0A0F14]/95 backdrop-blur-xl px-5 py-3 rounded-xl border border-green-500/30 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl"
         initial={false}
       >
-        <p className="text-white text-sm font-semibold">Chat on WhatsApp</p>
+        <p className="text-white font-semibold mb-1">Need Help? 💬</p>
+        <p className="text-white/70 text-xs">Get instant reply on WhatsApp</p>
         <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full w-0 h-0 border-t-8 border-b-8 border-l-8 border-transparent border-l-[#0A0F14]/95"></div>
       </motion.div>
     </motion.a>

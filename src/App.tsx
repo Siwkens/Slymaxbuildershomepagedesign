@@ -1,19 +1,28 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Home, Leaf, Zap, ChefHat, Paintbrush, Grid3x3, Hammer, Trees, Box, Fence, Award, Trophy, Clock, CheckCircle, Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight, Star, Sparkles, Sun, Moon } from 'lucide-react';
+import { Home, Leaf, Zap, ChefHat, Paintbrush, Grid3x3, Hammer, Trees, Box, Fence, Award, CheckCircle, Phone, Mail, MapPin, ChevronDown, Menu, X, ArrowRight, Star, Sparkles } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import heroImage from 'figma:asset/9ce3f11a2825db662e1ee7c9ee40ee9590666b17.png';
 import logoImage from 'figma:asset/2efec2bbd367343602568c94572f81890c7ead9a.png';
+import bathroomBefore from 'figma:asset/4c5456590d62ef5dd6f3aa3108694101749ca660.png';
+import bathroomAfter from 'figma:asset/08d2711280e94c9f5c281771f14876f2710d4dc3.png';
+import kitchenBefore from 'figma:asset/d4827bc7af129169a0d13f7b44bcdea1a0766773.png';
+import kitchenAfter from 'figma:asset/4074db97f00925dcace4662641f36035ee425d7a.png';
+import interiorBefore from 'figma:asset/9059f6e0deed518fb03be42702980ff13d7632e7.png';
+import interiorAfter from 'figma:asset/e3a17bfc2f4766facf34ce6a5ec9c19a50f76c93.png';
+import gardenBefore from 'figma:asset/37b363fd960a96603ddb0103c09c1fdb850ca440.png';
+import gardenAfter from 'figma:asset/ad0e3362644fb48849374e1302326bc0a04a6b7a.png';
 import { LoadingAnimation } from './components/LoadingAnimation';
 import { WhatsAppButton } from './components/WhatsAppButton';
-import { TrustSignals } from './components/TrustSignals';
 import { FloatingParticles, RippleEffect, ScrollProgress, CursorFollower } from './components/MicroInteractions';
+import { BeforeAfterSlider } from './components/BeforeAfterSlider';
 
 export default function App() {
+  // Dark mode only - no theme switching
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoading, setIsLoading] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const { scrollY } = useScroll();
   
   // Advanced Parallax
@@ -90,20 +99,13 @@ export default function App() {
     },
   ];
 
-  const whyChooseUs = [
-    { icon: Award, title: '10+ Years Experience', description: 'Proven track record of excellence', gradient: 'from-amber-400 via-yellow-500 to-orange-600' },
-    { icon: Trophy, title: 'High-Quality Materials', description: 'Premium products only', gradient: 'from-purple-400 via-pink-500 to-rose-600' },
-    { icon: CheckCircle, title: 'Interior + Garden Expertise', description: 'Complete solutions', gradient: 'from-cyan-400 via-blue-500 to-indigo-600' },
-    { icon: Clock, title: 'Clean & On-Time Work', description: 'Delivered as promised', gradient: 'from-emerald-400 via-green-500 to-teal-600' },
-  ];
-
   // Show loading animation
   if (isLoading) {
     return <LoadingAnimation onComplete={() => setIsLoading(false)} />;
   }
 
   return (
-    <div className={`${isDarkMode ? 'bg-[#0A0F14]' : 'bg-[#F5F2EB]'} min-h-screen ${isDarkMode ? 'text-white' : 'text-[#0A0F14]'} font-sans antialiased overflow-x-hidden relative transition-colors duration-500`}>
+    <div className="bg-[#0A0F14] min-h-screen text-white font-sans antialiased overflow-x-hidden relative transition-colors duration-500">
       {/* Micro Interactions */}
       <FloatingParticles />
       <RippleEffect />
@@ -176,7 +178,7 @@ export default function App() {
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled 
-            ? `${isDarkMode ? 'bg-[#0A0F14]/80' : 'bg-[#F5F2EB]/80'} backdrop-blur-2xl shadow-2xl ${isDarkMode ? 'border-b border-white/5' : 'border-b border-[#0A0F14]/10'}` 
+            ? 'bg-[#0A0F14]/80 backdrop-blur-2xl shadow-2xl border-b border-white/5' 
             : 'bg-transparent'
         }`}
         style={{ height: '90px' }}
@@ -293,7 +295,7 @@ export default function App() {
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className={`relative px-6 py-3 ${isDarkMode ? 'text-white/80 hover:text-white' : 'text-[#0A0F14]/80 hover:text-[#0A0F14]'} transition-all rounded-full overflow-hidden group`}
+                  className="relative px-6 py-3 text-white/80 hover:text-white transition-all rounded-full overflow-hidden group"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -306,64 +308,14 @@ export default function App() {
               ))}
             </nav>
 
-            {/* Right CTAs - 3D Glass Effect */}
-            <div className="hidden lg:flex items-center gap-4">
-              {/* Theme Toggle */}
-              <motion.button
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className="relative p-3 rounded-full overflow-hidden group"
-                whileHover={{ scale: 1.1, rotate: 180 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <div className="absolute inset-0 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#D6B46C]/20 to-[#C9A961]/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity"></div>
-                {isDarkMode ? (
-                  <Sun className="relative z-10 w-5 h-5 text-[#D6B46C]" strokeWidth={2.5} />
-                ) : (
-                  <Moon className="relative z-10 w-5 h-5 text-[#D6B46C]" strokeWidth={2.5} />
-                )}
-              </motion.button>
 
-              <motion.button
-                className="relative px-7 py-3.5 rounded-2xl overflow-hidden group"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <div className="absolute inset-0 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#D6B46C]/0 via-[#D6B46C]/20 to-[#D6B46C]/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <span className="relative z-10 text-sm font-semibold tracking-wider uppercase">Estimate Cost</span>
-              </motion.button>
-              
-              <motion.button
-                className="relative px-7 py-3.5 rounded-2xl overflow-hidden group"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] via-[#D6B46C] to-[#FFA500] rounded-2xl"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#FFA500] via-[#FFD700] to-[#D6B46C] opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
-                <div className="absolute inset-0 opacity-50 group-hover:opacity-70 blur-xl bg-gradient-to-r from-[#FFD700] to-[#FFA500]"></div>
-                <span className="relative z-10 text-sm font-bold tracking-wider uppercase text-black flex items-center gap-2">
-                  Book Now
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </motion.button>
-            </div>
 
             {/* Mobile Menu */}
             <button 
-              className={`lg:hidden ${isDarkMode ? 'text-white' : 'text-[#0A0F14]'} p-2 relative group`}
+              className="lg:hidden text-white p-2 relative group"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              <div className={`absolute inset-0 ${isDarkMode ? 'bg-white/5' : 'bg-[#0A0F14]/5'} rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity`}></div>
+              <div className="absolute inset-0 bg-white/5 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
               {isMobileMenuOpen ? <X className="w-7 h-7 relative z-10" /> : <Menu className="w-7 h-7 relative z-10" />}
             </button>
           </div>
@@ -374,25 +326,19 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`lg:hidden ${isDarkMode ? 'bg-[#0A0F14]/95' : 'bg-[#F5F2EB]/95'} backdrop-blur-2xl ${isDarkMode ? 'border-t border-white/5' : 'border-t border-[#0A0F14]/10'}`}
+            className="lg:hidden bg-[#0A0F14]/95 backdrop-blur-2xl border-t border-white/5"
           >
             <div className="px-6 py-8 space-y-4">
               {['Home', 'Services', 'Projects', 'Reviews', 'Contact'].map((item) => (
                 <a 
                   key={item}
                   href={`#${item.toLowerCase()}`} 
-                  className={`block ${isDarkMode ? 'text-white' : 'text-[#0A0F14]'} text-xl px-4 py-3 rounded-xl ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-[#0A0F14]/5'} transition-all`}
+                  className="block text-white text-xl px-4 py-3 rounded-xl hover:bg-white/5 transition-all"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item}
                 </a>
               ))}
-              <button className={`w-full px-6 py-3 ${isDarkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-[#0A0F14]/5 border-[#0A0F14]/10 text-[#0A0F14]'} border rounded-xl`}>
-                Estimate Cost
-              </button>
-              <button className="w-full px-6 py-3 rounded-xl text-black bg-gradient-to-r from-[#FFD700] to-[#FFA500]">
-                Book Now
-              </button>
             </div>
           </motion.div>
         )}
@@ -639,7 +585,7 @@ export default function App() {
                   <img 
                     src={logoImage} 
                     alt="Slymax Builders" 
-                    className="h-32 w-auto relative z-10"
+                    className="h-48 w-auto relative z-10 mx-auto"
                     style={{
                       filter: 'drop-shadow(0 10px 30px rgba(214, 180, 108, 0.5))',
                     }}
@@ -989,284 +935,389 @@ export default function App() {
         </div>
       </section>
 
-      {/* BEFORE & AFTER - Compact with Categories */}
-      <section id="projects" className="relative px-8 lg:px-16 py-24">
-        <div className="max-w-[1400px] mx-auto">
+      {/* BEFORE & AFTER - Interactive Sliders with Category Filters */}
+      <section id="projects" className="relative px-8 lg:px-16 py-32 overflow-hidden bg-gradient-to-b from-[#0A0F14] via-[#0F1419] to-[#0A0F14]">
+        {/* Animated Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <motion.div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(90deg, rgba(214, 180, 108, 0.2) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(214, 180, 108, 0.2) 1px, transparent 1px)
+              `,
+              backgroundSize: '60px 60px'
+            }}
+            animate={{
+              backgroundPosition: ['0% 0%', '100% 100%'],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          />
+        </div>
+
+        {/* Floating Gradient Orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute top-20 left-10 w-96 h-96 rounded-full opacity-20 blur-3xl"
+            style={{
+              background: 'radial-gradient(circle, #D6B46C 0%, transparent 70%)',
+            }}
+            animate={{
+              x: [0, 100, 0],
+              y: [0, -50, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-10 w-96 h-96 rounded-full opacity-20 blur-3xl"
+            style={{
+              background: 'radial-gradient(circle, #74C7FF 0%, transparent 70%)',
+            }}
+            animate={{
+              x: [0, -100, 0],
+              y: [0, 50, 0],
+              scale: [1, 1.3, 1],
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+
+        <div className="max-w-[1600px] mx-auto relative z-10">
+          {/* Section Header with Stats */}
+          <div className="text-center mb-20">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-6"
+            >
+              <span className="px-6 py-3 rounded-full bg-gradient-to-r from-[#D6B46C]/20 to-[#C9A961]/20 border-[#D6B46C]/30 border backdrop-blur-xl text-[#D6B46C] uppercase tracking-widest text-sm font-bold inline-flex items-center gap-2">
+                <Sparkles className="w-4 h-4" fill="currentColor" />
+                Portfolio
+              </span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-6xl lg:text-7xl font-black mb-6"
+            >
+              <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+                Amazing Transformations
+              </span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-xl text-white/60 max-w-2xl mx-auto mb-12"
+            >
+              Drag the slider to witness the power of expert craftsmanship
+            </motion.p>
+
+            {/* Stats Row */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-wrap justify-center gap-8 mb-12"
+            >
+              {[
+                { number: '400+', label: 'Projects Completed', icon: CheckCircle },
+                { number: '98%', label: 'Satisfaction Rate', icon: Star },
+                { number: '10+', label: 'Years Experience', icon: Award },
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10"
+                  whileHover={{ scale: 1.05, y: -5 }}
+                >
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-[#FFD700] to-[#D6B46C]">
+                    <stat.icon className="w-5 h-5 text-black" strokeWidth={2.5} />
+                  </div>
+                  <div className="text-left">
+                    <div className="text-2xl font-bold bg-gradient-to-r from-[#FFD700] to-[#D6B46C] bg-clip-text text-transparent">
+                      {stat.number}
+                    </div>
+                    <div className="text-sm text-white/60">{stat.label}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Category Filter Pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-wrap justify-center gap-3"
+            >
+              {['All', 'Interior', 'Garden', 'Kitchen', 'Bathroom'].map((category) => (
+                <motion.button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-6 py-3 rounded-full font-semibold uppercase tracking-wider text-sm transition-all ${
+                    selectedCategory === category
+                      ? 'bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black shadow-[0_0_30px_rgba(214,180,108,0.5)]'
+                      : 'bg-white/5 text-white/60 hover:bg-white/10 border border-white/10'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {category}
+                </motion.button>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Before/After Sliders Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Garden Transformation */}
+            {(selectedCategory === 'All' || selectedCategory === 'Garden') && (
+              <BeforeAfterSlider
+                beforeImage={gardenBefore}
+                afterImage={gardenAfter}
+                category="Garden"
+                categoryColor="bg-green-500/90"
+                categoryIcon={<Leaf className="w-4 h-4 text-white" strokeWidth={2.5} />}
+                title="Premium Garden & Hot Tub Area"
+                description="Custom wooden pergola with landscaping and outdoor relaxation space"
+              />
+            )}
+
+            {/* Kitchen Transformation */}
+            {(selectedCategory === 'All' || selectedCategory === 'Interior' || selectedCategory === 'Kitchen') && (
+              <BeforeAfterSlider
+                beforeImage={kitchenBefore}
+                afterImage={kitchenAfter}
+                category="Kitchen"
+                categoryColor="bg-amber-500/90"
+                categoryIcon={<ChefHat className="w-4 h-4 text-white" strokeWidth={2.5} />}
+                title="Complete Kitchen Transformation"
+                description="From bare walls to modern fitted kitchen with premium finishes"
+              />
+            )}
+
+            {/* Bathroom Transformation */}
+            {(selectedCategory === 'All' || selectedCategory === 'Interior' || selectedCategory === 'Bathroom') && (
+              <BeforeAfterSlider
+                beforeImage={bathroomBefore}
+                afterImage={bathroomAfter}
+                category="Bathroom"
+                categoryColor="bg-blue-500/90"
+                categoryIcon={<Zap className="w-4 h-4 text-white" strokeWidth={2.5} />}
+                title="Complete Bathroom Renovation"
+                description="Professional tiling with custom cabinetry and fixtures"
+              />
+            )}
+
+            {/* Living Room Transformation */}
+            {(selectedCategory === 'All' || selectedCategory === 'Interior') && (
+              <BeforeAfterSlider
+                beforeImage={interiorBefore}
+                afterImage={interiorAfter}
+                category="Interior"
+                categoryColor="bg-purple-500/90"
+                categoryIcon={<Home className="w-4 h-4 text-white" strokeWidth={2.5} />}
+                title="Luxury Living Room Makeover"
+                description="From construction site to elegant living space with feature wall"
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* CLIENT TESTIMONIALS - Reviews Section */}
+      <section id="reviews" className="relative px-8 lg:px-16 py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0F14] via-[#0F1419] to-[#0A0F14]"></div>
+        
+        {/* Animated Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle, #D6B46C 1px, transparent 1px)',
+            backgroundSize: '40px 40px'
+          }}></div>
+        </div>
+
+        <div className="max-w-[1600px] mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
-              Amazing Transformations
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", duration: 0.8 }}
+              className="inline-block mb-6"
+            >
+              <div className="px-6 py-2 rounded-full bg-gradient-to-r from-[#D6B46C]/20 to-[#C9A961]/20 border border-[#D6B46C]/30">
+                <span className="text-[#D6B46C] text-sm uppercase tracking-widest font-semibold">Testimonials</span>
+              </div>
+            </motion.div>
+            
+            <h2 className="text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
+              What Our Clients Say
             </h2>
-            <p className="text-lg text-white/60">
-              Witness the power of expert craftsmanship
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
+              Real feedback from homeowners who trusted us with their dream projects
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Before */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              whileHover={{ scale: 1.02, y: -10, rotateY: 5, rotateX: 2 }}
-              style={{ 
-                transformStyle: 'preserve-3d',
-                perspective: '1000px'
-              }}
-              className="group relative"
-            >
-              <div className="absolute -inset-3 bg-gradient-to-r from-gray-500 to-gray-700 opacity-20 group-hover:opacity-40 blur-3xl transition-opacity rounded-2xl"></div>
-              <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 group-hover:border-white/20 transition-all">
-                <motion.img 
-                  src="https://images.unsplash.com/photo-1625766924037-97152552d03a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjBiZWZvcmUlMjByZW5vdmF0aW9ufGVufDF8fHx8MTc2NDgwNzY4M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Before"
-                  className="w-full h-[400px] object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <div className="absolute top-6 left-6">
-                  <div className="px-5 py-2 bg-gray-900/90 backdrop-blur-xl rounded-full border border-white/20">
-                    <span className="text-white font-bold uppercase tracking-widest text-xs">Before</span>
-                  </div>
-                </div>
-                <div className="absolute top-6 right-6">
-                  <div className="px-4 py-2 bg-green-500/90 backdrop-blur-xl rounded-full border border-green-400/30 flex items-center gap-2">
-                    <Leaf className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
-                    <span className="text-white font-semibold text-xs">Garden</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h3 className="text-2xl font-bold text-white mb-1">Garden Space</h3>
-                  <p className="text-white/70 text-sm">Ready for transformation</p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* After */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              whileHover={{ scale: 1.02, y: -10, rotateY: -5, rotateX: -2 }}
-              style={{ 
-                transformStyle: 'preserve-3d',
-                perspective: '1000px'
-              }}
-              className="group relative"
-            >
-              <div className="absolute -inset-3 bg-gradient-to-r from-[#FFD700] via-[#D6B46C] to-[#FFA500] opacity-40 group-hover:opacity-60 blur-3xl transition-opacity rounded-2xl"></div>
-              <div className="relative rounded-2xl overflow-hidden border-2 border-[#D6B46C]/30 group-hover:border-[#D6B46C]/60 transition-all">
-                <motion.img 
-                  src="https://images.unsplash.com/photo-1588075147961-e0e9670e98aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBnYXJkZW4lMjBhZnRlciUyMHRyYW5zZm9ybWF0aW9ufGVufDF8fHx8MTc2NDgwOTU4MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="After"
-                  className="w-full h-[400px] object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <div className="absolute top-6 left-6">
-                  <div className="px-5 py-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] rounded-full shadow-2xl">
-                    <span className="text-black font-bold uppercase tracking-widest text-xs flex items-center gap-2">
-                      <Sparkles className="w-3.5 h-3.5" fill="currentColor" strokeWidth={2.5} />
-                      After
-                    </span>
-                  </div>
-                </div>
-                <div className="absolute top-6 right-6">
-                  <div className="px-4 py-2 bg-green-500/90 backdrop-blur-xl rounded-full border border-green-400/30 flex items-center gap-2">
-                    <Leaf className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
-                    <span className="text-white font-semibold text-xs">Garden</span>
-                  </div>
-                </div>
-                
-                {/* Animated Slider Handle */}
-                <motion.div 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full flex items-center justify-center"
-                  style={{
-                    background: 'linear-gradient(135deg, #FFD700 0%, #D6B46C 50%, #FFA500 100%)',
-                    boxShadow: '0 10px 40px rgba(214, 180, 108, 0.6)',
-                  }}
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    rotate: [0, 180, 360],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <div className="flex gap-1">
-                    <div className="w-1 h-6 bg-black rounded-full"></div>
-                    <div className="w-1 h-6 bg-black rounded-full"></div>
-                  </div>
-                </motion.div>
-
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h3 className="text-2xl font-bold text-white mb-1">Luxury Garden</h3>
-                  <p className="text-white/70 text-sm">Complete transformation</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* GARDEN FEATURE - Split Layout */}
-      <section className="relative px-8 lg:px-16 py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0F14] via-[#0F1419] to-[#0A0F14]"></div>
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'radial-gradient(circle, #D6B46C 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }}></div>
-        </div>
-
-        <div className="max-w-[1600px] mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative group"
-            >
-              <div className="absolute -inset-6 bg-gradient-to-r from-emerald-500 to-teal-500 opacity-20 group-hover:opacity-30 blur-3xl transition-opacity rounded-3xl"></div>
-              <div className="relative rounded-3xl overflow-hidden">
-                <img 
-                  src="https://images.unsplash.com/photo-1693760028936-faae3f7005fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjB0ZXJyYWNlJTIwcGVyZ29sYSUyMGdvbGRlbiUyMGhvdXJ8ZW58MXx8fHwxNzY0ODA5NTgwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                  alt="Garden Terrace"
-                  className="w-full h-[700px] object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-transparent to-teal-500/20"></div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="mb-6">
-                <span className="px-5 py-2 rounded-full bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-400 text-sm uppercase tracking-widest font-semibold">
-                  Outdoor Excellence
-                </span>
-              </div>
-              <h2 className="text-5xl font-bold mb-8 bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 bg-clip-text text-transparent">
-                Garden & Outdoor Living
-              </h2>
-              <div className="space-y-6">
-{[
-                  { text: 'Premium decking installation with sustainable materials', icon: Box },
-                  { text: 'Custom pergolas and outdoor structures', icon: Home },
-                  { text: 'Professional landscape lighting design', icon: Zap },
-                  { text: 'Beautiful pathways and hardscaping', icon: Grid3x3 },
-                  { text: 'Expert plant selection and garden planning', icon: Trees }
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 10 }}
-                    className="flex items-center gap-4 group cursor-pointer"
-                  >
-                    <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-400 to-teal-400 group-hover:scale-110 transition-transform">
-                      <item.icon className="w-4 h-4 text-white" strokeWidth={2.5} />
-                    </div>
-                    <p className="text-lg text-white/80 group-hover:text-white transition-colors">{item.text}</p>
-                  </motion.div>
-                ))}
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05, x: 10 }}
-                whileTap={{ scale: 0.98 }}
-                className="mt-12 px-10 py-5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg flex items-center gap-3 shadow-2xl shadow-emerald-500/30"
-              >
-                Explore Garden Projects
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE US - Modern Icons */}
-      <section id="reviews" className="relative px-8 lg:px-16 py-32">
-        <div className="max-w-[1600px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
-              Why Choose Us
-            </h2>
-            <p className="text-xl text-white/60">Excellence in every detail</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {whyChooseUs.map((item, index) => (
+          {/* Reviews Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'Sarah McKenzie',
+                location: 'Aberdeen',
+                rating: 5,
+                text: 'Absolutely exceptional work! The team transformed our kitchen beyond our expectations. Professional, clean, and finished on time. Highly recommended!',
+                project: 'Kitchen Renovation',
+                image: '👩‍💼'
+              },
+              {
+                name: 'James Robertson',
+                location: 'Edinburgh',
+                rating: 5,
+                text: 'Outstanding craftsmanship on our bathroom renovation. Attention to detail was incredible. The quality of materials and workmanship is top-notch.',
+                project: 'Bathroom Remodel',
+                image: '👨‍💼'
+              },
+              {
+                name: 'Emma Thompson',
+                location: 'Glasgow',
+                rating: 5,
+                text: 'Our garden deck is beautiful! The team was professional, respectful, and the finished product exceeded all expectations. Worth every penny.',
+                project: 'Garden Decking',
+                image: '👩'
+              },
+              {
+                name: 'David Wilson',
+                location: 'Dundee',
+                rating: 5,
+                text: 'Complete home renovation done to perfection. Communication was excellent throughout. They truly care about their work and it shows.',
+                project: 'Full Home Renovation',
+                image: '👨'
+              },
+              {
+                name: 'Claire Anderson',
+                location: 'Inverness',
+                rating: 5,
+                text: 'The painting and decorating service was fantastic. Clean work, beautiful finish, and very reasonable pricing. Will definitely use again!',
+                project: 'Interior Painting',
+                image: '👩‍🦰'
+              },
+              {
+                name: 'Michael Brown',
+                location: 'Aberdeen',
+                rating: 5,
+                text: 'From design to completion, everything was perfect. The team listened to our needs and delivered exactly what we wanted. Five stars!',
+                project: 'Custom Carpentry',
+                image: '👨‍🦱'
+              }
+            ].map((review, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                whileHover={{ y: -15, scale: 1.03 }}
-                className="group relative text-center"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="group relative"
               >
-                {/* Glow Background */}
-                <div className={`absolute -inset-6 bg-gradient-to-r ${item.gradient} opacity-0 group-hover:opacity-30 blur-3xl transition-all duration-500 rounded-3xl`}></div>
+                {/* Glow Effect */}
+                <div className="absolute -inset-3 bg-gradient-to-r from-[#D6B46C] to-[#C9A961] opacity-0 group-hover:opacity-20 blur-2xl transition-all duration-500 rounded-3xl"></div>
                 
                 {/* Card */}
-                <div className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10 group-hover:border-white/20 transition-all"
+                <div 
+                  className="relative h-full p-8 rounded-3xl backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
                   }}
                 >
-                  {/* Icon */}
-                  <motion.div
-                    className="mb-6 inline-flex items-center justify-center"
-                    whileHover={{ rotate: 360, scale: 1.2 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <div className={`relative w-28 h-28 rounded-full bg-gradient-to-r ${item.gradient} p-[3px] group-hover:p-[4px] transition-all`}>
-                      <div className="w-full h-full bg-[#0A0F14] rounded-full flex items-center justify-center">
-                        <item.icon className="w-14 h-14 text-white" strokeWidth={2} />
-                      </div>
-                    </div>
-                  </motion.div>
-                  
-                  {/* Animated Underline */}
-                  <motion.div 
-                    className={`mb-6 mx-auto h-1.5 rounded-full bg-gradient-to-r ${item.gradient}`}
-                    initial={{ width: 0 }}
-                    whileInView={{ width: 80 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
-                  />
-                  
-                  <h3 className={`text-xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:${item.gradient} group-hover:bg-clip-text transition-all`}>
-                    {item.title}
-                  </h3>
-                  <p className="text-white/60 leading-relaxed">
-                    {item.description}
+                  {/* Quote Icon */}
+                  <div className="absolute top-6 right-6 text-6xl opacity-10">
+                    "
+                  </div>
+
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star 
+                        key={i} 
+                        className="w-5 h-5 text-[#FFD700] fill-[#FFD700]" 
+                        strokeWidth={0}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Review Text */}
+                  <p className="text-white/80 mb-6 leading-relaxed">
+                    "{review.text}"
                   </p>
+
+                  {/* Project Badge */}
+                  <div className="mb-6">
+                    <span className="px-3 py-1 rounded-full text-xs bg-[#D6B46C]/20 text-[#D6B46C] border border-[#D6B46C]/30 uppercase tracking-wider font-semibold">
+                      {review.project}
+                    </span>
+                  </div>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-4 pt-6 border-t border-white/10">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#D6B46C] to-[#C9A961] flex items-center justify-center text-2xl">
+                      {review.image}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white">
+                        {review.name}
+                      </h4>
+                      <p className="text-sm text-white/50">
+                        {review.location}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Trust Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 text-center"
+          >
+            <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10">
+              <Award className="w-6 h-6 text-[#D6B46C]" strokeWidth={2.5} />
+              <div className="text-sm text-white/70">
+                <span className="font-bold text-[#D6B46C]">4.9/5</span> Average Rating from <span className="font-bold text-[#D6B46C]">200+</span> Happy Clients
+              </div>
+              <Star className="w-6 h-6 text-[#FFD700] fill-[#FFD700]" strokeWidth={0} />
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -1370,21 +1421,18 @@ export default function App() {
         </div>
       </section>
 
-      {/* TRUST SIGNALS */}
-      <TrustSignals />
-
       {/* WhatsApp Button */}
       <WhatsAppButton />
 
       {/* FOOTER - Modern */}
       <motion.footer 
-        className={`relative px-8 lg:px-16 py-20 ${isDarkMode ? 'border-t border-white/5' : 'border-t border-[#0A0F14]/10'}`}
+        className="relative px-8 lg:px-16 py-20 border-t border-white/5"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       >
-        <div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-b from-transparent to-[#0A0F14]/50' : 'bg-gradient-to-b from-transparent to-[#F5F2EB]/50'}`}></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0A0F14]/50"></div>
         
         <div className="max-w-[1600px] mx-auto relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
@@ -1410,7 +1458,7 @@ export default function App() {
                   <div className="text-xl tracking-wide">BUILDERS</div>
                 </div>
               </div>
-              <p className={`${isDarkMode ? 'text-white/50' : 'text-[#0A0F14]/50'} leading-relaxed mb-6`}>
+              <p className="text-white/50 leading-relaxed mb-6">
                 Premium construction and renovation services. Transforming spaces with exceptional craftsmanship and innovative design since 2010.
               </p>
               
