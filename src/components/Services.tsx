@@ -1,68 +1,71 @@
+import React from 'react';
 import { motion } from 'motion/react';
-import { Home, PaintBucket, Sparkles, Layers, Paintbrush, Hammer, Droplets, Package } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Sparkles, Home, Box, Palette } from 'lucide-react';
 
 const services = [
-  { icon: Home, title: 'Renovations', description: 'Complete home transformations' },
-  { icon: Layers, title: 'Interior Finishing', description: 'Premium quality finishes' },
-  { icon: Sparkles, title: 'Modernization', description: 'Contemporary upgrades' },
-  { icon: PaintBucket, title: 'Flooring', description: 'Expert floor installations' },
-  { icon: Paintbrush, title: 'Painting', description: 'Professional painting services' },
-  { icon: Hammer, title: 'Carpentry', description: 'Custom woodwork solutions' },
-  { icon: Droplets, title: 'Waterproofing', description: 'Long-lasting protection' },
-  { icon: Package, title: 'Furniture Assembly', description: 'Expert assembly services' },
+  {
+    title: "Projekty Interior",
+    description: "Kompleksowe wizje przestrzeni, które łączą funkcjonalność z unikalnym charakterem inwestora.",
+    icon: Palette,
+    img: "https://images.unsplash.com/photo-1768353114966-b296f12fd0b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmFsJTIwZGV0YWlscyUyMG1pbmltYWx8ZW58MXx8fHwxNzY4NDYzNjgxfDA&ixlib=rb-4.1.0&q=80&w=1080"
+  },
+  {
+    title: "Generalne Wykonawstwo",
+    description: "Zarządzanie pełnym cyklem budowlanym. Od surowego stanu po klucz w drzwiach.",
+    icon: Home,
+    img: "https://images.unsplash.com/photo-1603901622056-0a5bee231395?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBhcmNoaXRlY3R1cmFsJTIwcHJvZmVzc2lvbmFsJTIwdG9vbHMlMjBsdXh1cnl8ZW58MXx8fHwxNzY4NDYzNjgxfDA&ixlib=rb-4.1.0&q=80&w=1080"
+  },
+  {
+    title: "Materiały Premium",
+    description: "Dostęp do ekskluzywnych selekcji marmurów, drewna i autorskich systemów oświetlenia.",
+    icon: Sparkles,
+    img: "https://images.unsplash.com/photo-1759262151424-7b8ed20a31a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMG1hcmJsZSUyMGdvbGQlMjBkZXRhaWxzfGVufDF8fHx8MTc2ODQ2MzY4MXww&ixlib=rb-4.1.0&q=80&w=1080"
+  }
 ];
 
 export function Services() {
   return (
-    <section className="relative py-24 px-6 overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-[#d4af37] opacity-5 blur-[100px] rounded-full" />
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-[#d4af37] opacity-5 blur-[100px] rounded-full" />
-      
-      <div className="relative z-10 max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-transparent bg-clip-text bg-gradient-to-r from-[#f4e5b3] via-[#d4af37] to-[#b8941f] mb-4">
-            OUR SERVICES
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto" />
-        </motion.div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <section id="uslugi" className="py-24 px-6 md:px-12 bg-charcoal">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className="max-w-2xl">
+            <span className="text-gold text-xs tracking-[0.4em] uppercase mb-4 block">Ekspertyza</span>
+            <h2 className="text-3xl md:text-5xl font-light text-warm-white">
+              Sztuka transformacji <br /> w najwyższym standardzie.
+            </h2>
+          </div>
+          <p className="text-warm-white/40 text-sm max-w-xs uppercase tracking-widest leading-relaxed">
+            Każdy detal jest projektowany z myślą o trwałości i ponadczasowej estetyce.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 30 }}
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="group relative"
+              className="group relative h-[500px] overflow-hidden rounded-sm border border-warm-white/5"
             >
-              {/* Glassmorphism card */}
-              <div className="relative h-full bg-gradient-to-br from-[#1a1a1a]/80 to-[#0a0a0a]/80 backdrop-blur-xl rounded-2xl p-8 border border-[#d4af37]/30 shadow-[0_0_30px_rgba(212,175,55,0.1)] transition-all duration-300 group-hover:border-[#d4af37]/60 group-hover:shadow-[0_0_40px_rgba(212,175,55,0.3)]">
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#d4af37]/0 to-[#d4af37]/0 group-hover:from-[#d4af37]/5 group-hover:to-[#d4af37]/10 rounded-2xl transition-all duration-300" />
-                
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-                  {/* Icon container */}
-                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#d4af37]/20 to-[#b8941f]/10 flex items-center justify-center border border-[#d4af37]/30 shadow-[0_0_20px_rgba(212,175,55,0.2)] group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-300">
-                    <service.icon className="w-8 h-8 text-[#d4af37]" strokeWidth={1.5} />
-                  </div>
-                  
-                  <h3 className="text-[#f4e5b3]">{service.title}</h3>
-                  <p className="text-gray-400 text-sm">{service.description}</p>
-                </div>
-                
-                {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#d4af37]/20 rounded-tl-2xl" />
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#d4af37]/20 rounded-br-2xl" />
+              <div className="absolute inset-0 z-0">
+                <ImageWithFallback
+                  src={service.img}
+                  alt={service.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent"></div>
+              </div>
+
+              <div className="relative z-10 h-full p-8 flex flex-col justify-end">
+                <service.icon className="w-6 h-6 text-gold mb-6" />
+                <h3 className="text-xl text-warm-white mb-4 tracking-wide">{service.title}</h3>
+                <p className="text-warm-white/60 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  {service.description}
+                </p>
+                <div className="w-0 group-hover:w-12 h-[1px] bg-gold transition-all duration-500"></div>
               </div>
             </motion.div>
           ))}
