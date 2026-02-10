@@ -1,0 +1,48 @@
+{
+  "name": "slymax-builders",
+  "version": "2.0.0",
+  "description": "Ultra-premium website for SLYMAX BUILDERS - renovation and interior design company",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "pre-deploy": "node scripts/pre-deploy-check.js",
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:netlify": "npm run build && netlify deploy --prod",
+    "deploy:vercel": "npm run build && vercel --prod",
+    "check": "node scripts/pre-deploy-check.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "motion": "^11.15.0",
+    "lucide-react": "^0.469.0",
+    "sonner": "^2.0.3",
+    "recharts": "^2.15.0",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1",
+    "@supabase/supabase-js": "^2.47.10"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "@types/react-slick": "^0.23.13",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.6",
+    "tailwindcss": "^4.0.0"
+  },
+  "keywords": [
+    "renovation",
+    "interior-design",
+    "construction",
+    "luxury",
+    "premium",
+    "warsaw",
+    "poland"
+  ],
+  "author": "SLYMAX BUILDERS",
+  "license": "UNLICENSED"
+}

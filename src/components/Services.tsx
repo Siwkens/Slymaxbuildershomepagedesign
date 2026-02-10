@@ -1,26 +1,29 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { Sparkles, Home, Box, Palette } from 'lucide-react';
+import { Sparkles, Home, Box, Palette, Ruler, Shield } from 'lucide-react';
 
 const services = [
   {
-    title: "Projekty Interior",
-    description: "Kompleksowe wizje przestrzeni, które łączą funkcjonalność z unikalnym charakterem inwestora.",
+    title: "Projekty Wnętrz",
+    description: "Kompleksowe wizje przestrzeni, które łączą funkcjonalność z unikalnym charakterem. Od koncepcji po wizualizacje 3D.",
     icon: Palette,
-    img: "https://images.unsplash.com/photo-1768353114966-b296f12fd0b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmFsJTIwZGV0YWlscyUyMG1pbmltYWx8ZW58MXx8fHwxNzY4NDYzNjgxfDA&ixlib=rb-4.1.0&q=80&w=1080"
+    img: "https://images.unsplash.com/photo-1768353114966-b296f12fd0b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmFsJTIwZGV0YWlscyUyMG1pbmltYWx8ZW58MXx8fHwxNzY4NDYzNjgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    details: "Projekty 3D • Wizualizacje • Dobór materiałów"
   },
   {
-    title: "Generalne Wykonawstwo",
-    description: "Zarządzanie pełnym cyklem budowlanym. Od surowego stanu po klucz w drzwiach.",
+    title: "Remonty Pod Klucz",
+    description: "Zarządzanie pełnym cyklem remontowym. Od surowego stanu po wykończenie pod klucz z 5-letnią gwarancją.",
     icon: Home,
-    img: "https://images.unsplash.com/photo-1603901622056-0a5bee231395?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBhcmNoaXRlY3R1cmFsJTIwcHJvZmVzc2lvbmFsJTIwdG9vbHMlMjBsdXh1cnl8ZW58MXx8fHwxNzY4NDYzNjgxfDA&ixlib=rb-4.1.0&q=80&w=1080"
+    img: "https://images.unsplash.com/photo-1603901622056-0a5bee231395?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBhcmNoaXRlY3R1cmFsJTIwcHJvZmVzc2lvbmFsJTIwdG9vbHMlMjBsdXh1cnl8ZW58MXx8fHwxNzY4NDYzNjgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    details: "Mieszkania • Domy • Biura • Lokale komercyjne"
   },
   {
     title: "Materiały Premium",
-    description: "Dostęp do ekskluzywnych selekcji marmurów, drewna i autorskich systemów oświetlenia.",
+    description: "Dostęp do ekskluzywnych selekcji marmurów włoskich, drewna egzotycznego i autorskich systemów oświetlenia.",
     icon: Sparkles,
-    img: "https://images.unsplash.com/photo-1759262151424-7b8ed20a31a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMG1hcmJsZSUyMGdvbGQlMjBkZXRhaWxzfGVufDF8fHx8MTc2ODQ2MzY4MXww&ixlib=rb-4.1.0&q=80&w=1080"
+    img: "https://images.unsplash.com/photo-1759262151424-7b8ed20a31a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBiYXRocm9vbSUyMG1hcmJsZSUyMGdvbGQlMjBkZXRhaWxzfGVufDF8fHx8MTc2ODQ2MzY4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+    details: "Marmury • Parkiety • Oświetlenie • Armatura"
   }
 ];
 
@@ -35,9 +38,10 @@ export function Services() {
               Sztuka transformacji <br /> w najwyższym standardzie.
             </h2>
           </div>
-          <p className="text-warm-white/40 text-sm max-w-xs uppercase tracking-widest leading-relaxed">
-            Każdy detal jest projektowany z myślą o trwałości i ponadczasowej estetyce.
-          </p>
+          <div className="text-warm-white/60 text-sm max-w-xs leading-relaxed">
+            <p className="mb-3">Ponad 150 zrealizowanych projektów w Warszawie i okolicach.</p>
+            <p className="text-gold text-xs tracking-wider">✓ Gwarancja 5 lat • ✓ Certyfikowane materiały</p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -48,7 +52,7 @@ export function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              className="group relative h-[500px] overflow-hidden rounded-sm border border-warm-white/5"
+              className="group relative h-[500px] overflow-hidden rounded-sm border border-warm-white/5 hover:border-gold/30 transition-all duration-500"
             >
               <div className="absolute inset-0 z-0">
                 <ImageWithFallback
@@ -62,8 +66,11 @@ export function Services() {
               <div className="relative z-10 h-full p-8 flex flex-col justify-end">
                 <service.icon className="w-6 h-6 text-gold mb-6" />
                 <h3 className="text-xl text-warm-white mb-4 tracking-wide">{service.title}</h3>
-                <p className="text-warm-white/60 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <p className="text-warm-white/60 text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   {service.description}
+                </p>
+                <p className="text-gold/80 text-xs tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-500 mb-6">
+                  {service.details}
                 </p>
                 <div className="w-0 group-hover:w-12 h-[1px] bg-gold transition-all duration-500"></div>
               </div>
